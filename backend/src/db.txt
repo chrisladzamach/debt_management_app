@@ -1,0 +1,49 @@
+CREATE DATABASE IF NOT EXISTS debts_db;
+USE debts_db;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255), -- Se usa solo si es registro manual
+  google_id VARCHAR(255), -- Se usa si se loguea con Google
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE debts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL, -- Relación con el usuario
+  name VARCHAR(255) NOT NULL,
+  initial_amount DECIMAL(12,2) NOT NULL,
+  remaining_amount DECIMAL(12,2) NOT NULL,
+  created_at DATE NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE payments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  debt_id INT NOT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  date DATE NOT NULL,
+  description VARCHAR(255),
+  FOREIGN KEY (debt_id) REFERENCES debts(id) ON DELETE CASCADE
+);
+
+-- Insertar usuarios de ejemplo
+INSERT INTO users (name, email, password, google_id) VALUES
+('Juan Pérez', 'juan@example.com', 'hashed_password_123', NULL),
+('Ana Gómez', 'ana@example.com', NULL, 'google12345');
+
+-- Insertar deudas asociadas a usuarios
+INSERT INTO debts (user_id, name, initial_amount, remaining_amount, created_at)
+VALUES 
+(1, 'Préstamo Personal', 50000, 35000, '2024-01-01'),
+(1, 'Tarjeta de Crédito', 25000, 18500, '2024-01-10'),
+(2, 'Compra Celular', 3000, 1000, '2024-03-01');
+
+-- Insertar pagos
+INSERT INTO payments (debt_id, amount, date, description)
+VALUES
+(1, 15000, '2024-01-15', 'Pago inicial'),
+(2, 6500, '2024-02-01', 'Pago mensual'),
+(3, 2000, '2024-03-10', 'Abono cuota');
