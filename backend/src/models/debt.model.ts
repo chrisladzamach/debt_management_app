@@ -1,10 +1,9 @@
-import { Payment } from "./payment.model";
-
+// src/models/debt.model.ts
 export interface Debt {
-  id: string;
+  id: number;
+  user_id: number;
   name: string;
-  initialAmount: number;
-  remainingAmount: number;
-  createdAt: string;
-  payments: Payment[];
+  initial_amount: number;
+  remaining_amount: number;
+  created_at: string;
 }
