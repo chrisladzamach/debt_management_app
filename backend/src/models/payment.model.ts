@@ -1,6 +1,7 @@
 export interface Payment {
-  id: string;
+  id: number;
+  debt_id: number;
   amount: number;
   date: string;
-  description?: string;
+  description?: string | null;
 }
