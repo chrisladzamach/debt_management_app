@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { LoadingSystemView } from './views/LoadingSystemView'
+import { Header } from './components/Header/Header'
 
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -59,6 +60,7 @@ export const App = () => {
           style={{ animationDelay: "1s" }}
         />
       </div>
+      <Header />
     </div>
   )
 }
